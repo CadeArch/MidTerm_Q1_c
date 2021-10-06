@@ -1,8 +1,9 @@
 import math
-
+import time
+from datetime import datetime
 from ExamQ1 import ExamQ1
 from matplotlib import pyplot as p
-import numpy as np
+
 length = 4
 alpha = math.pi / 6
 vel = 20
@@ -47,17 +48,25 @@ def xandyPos(visitedPoints):
         ylist.append(point[1])
     return xlist, ylist
 
-
+timeInit = time.time()
+print(timeInit)
 visitedExam1 = robotExam.driveCommands(1)
+timeFinal = time.time()
+print(timeFinal)
+cTime = timeFinal - timeInit
+
 xPositions1sec, yPositions = xandyPos(visitedExam1)
-print(xPositions1sec[0], yPositions[0])
 # print("\n\n (xLoc, yLoc): " , robotExam.visitedList)
 print("\ntotal points on graph: ", len(robotExam.visitedList))
 print("last point position 1 dt", "(" + str(xPositions1sec[len(xPositions1sec) - 1]) + ", " + str(yPositions[len(yPositions) - 1]) + ")" )
 print("theoretical end position", "(" + str(bestEndX) + ", " + str(bestEndY) + ")")
 dt1Point = [xPositions1sec[len(xPositions1sec) - 1], yPositions[len(yPositions) - 1]]
 
+timeInit = time.time()
 visitedExam2 = robotExam1.driveCommands(0.1)
+timeFinal = time.time()
+cTime1 = timeFinal - timeInit
+
 xPositions01, yPositions1 = xandyPos(visitedExam2)
 # print("\n\n (xLoc, yLoc): " , robotExam1.visitedList)
 print("\ntotal points on graph: ", len(robotExam1.visitedList))
@@ -65,22 +74,31 @@ print("last point position 0.1 dt", "(" + str(xPositions01[len(xPositions01) - 1
 print("theoretical end position", "(" + str(bestEndX) + ", " + str(bestEndY) + ")")
 dt01Point = [xPositions01[len(xPositions01) - 1], yPositions1[len(yPositions1) - 1]]
 
+timeInit = time.time()
 visitedExam3 = robotExam2.driveCommands(0.01)
 xPositions001, yPositions2 = xandyPos(visitedExam3)
+timeFinal = time.time()
+cTime2 = timeFinal - timeInit
+
 # print("\n\n (xLoc, yLoc): " , robotExam2.visitedList)
 print("\ntotal points on graph: ", len(robotExam2.visitedList))
 print("last point position 0.01 dt", "(" + str(xPositions001[len(xPositions001) - 1]) + ", " + str(yPositions2[len(yPositions2) - 1]) + ")" )
 print("theoretical end position", "(" + str(bestEndX) + ", " + str(bestEndY) + ")")
 dt001point = [xPositions001[len(xPositions001) - 1], yPositions2[len(yPositions2) - 1]]
 
-visitedExamSmall = robotExamGut.driveCommands(0.0001)
-xPositionsSmall, yPositionsSmall = xandyPos(visitedExamSmall)
-# print("\n\n (xLoc, yLoc): " , robotExamGut.visitedList)
-print("\n (xLoc, yLoc): ", len(robotExamGut.visitedList))
-print("last point position 0.01 dt", "( " + str(xPositionsSmall[len(xPositionsSmall) - 1]) + ", " + str(yPositionsSmall[len(yPositionsSmall) - 1]) + ")" )
-print("theoretical end position", "( " + str(bestEndX) + ", " + str(bestEndY) + ")")
-
+# this is a gutcheck taking a really small time step
+# timeInit = time.time()
+# visitedExamSmall = robotExamGut.driveCommands(0.00001)
+# timeFinal = time.time()
+# cTime3 = timeFinal - timeInit
 #
+# xPositionsSmall, yPositionsSmall = xandyPos(visitedExamSmall)
+# # print("\n\n (xLoc, yLoc): " , robotExamGut.visitedList)
+# print("\n (xLoc, yLoc): ", len(robotExamGut.visitedList))
+# print("last point position 0.01 dt", "( " + str(xPositionsSmall[len(xPositionsSmall) - 1]) + ", " + str(yPositionsSmall[len(yPositionsSmall) - 1]) + ")" )
+# print("theoretical end position", "( " + str(bestEndX) + ", " + str(bestEndY) + ")")
+
+# to plot the resulting path of each robot with different timesteps
 # p.plot(xPositions1sec, yPositions, lw="2.5")
 # p.title("dt 1")
 # p.show()
@@ -111,5 +129,15 @@ p.bar(langs,metersOff)
 p.xlabel("time steps in seconds")
 p.ylabel("error in meters")
 p.title("error in different time steps")
+p.show()
+
+print(cTime, cTime1, cTime2)
+fig = p.figure()
+langs = ['dt-1', 'dt-0.1', 'dt-0.01']
+metersOff = [cTime, cTime1, cTime2]
+p.bar(langs,metersOff)
+p.xlabel("time steps in seconds")
+p.ylabel("compute time")
+p.title("compute time in different time steps")
 p.show()
 
