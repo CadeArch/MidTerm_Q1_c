@@ -1,6 +1,5 @@
 import math
 import time
-from datetime import datetime
 from ExamQ1 import ExamQ1
 from matplotlib import pyplot as p
 
@@ -23,12 +22,13 @@ print("distance for one revolution: ", oneRevDist)
 print("total Distance traveled: ", pathCircumf * totalRev)
 print("total Distance traveled: ", oneRevDist * totalRev)
 
-endPosition = (totalRev - 4) * oneRevDist
+endPosition = (totalRev - 4) * oneRevDist # gives the distance for the partial last revolution to find ending position
 print("end distance into 5th revolution (arc length) ", endPosition)
 thetaEndPosition = (endPosition * 360) / (2 * math.pi * radiusPath)
 print("theta of end position", thetaEndPosition)
 radiansEndPos = math.radians(thetaEndPosition)
 gutCheck = math.radians(180) # this gives end location being (-r, 0) YAY
+# plug in gut check for next two lines to see if it is calculating correctly
 bestEndX = radiusPath * math.cos(radiansEndPos)
 bestEndY = radiusPath * math.sin(radiansEndPos)
 print("theoretical end position", "( " + str(bestEndX) + ", " + str(bestEndY) + ")")
@@ -137,7 +137,7 @@ langs = ['dt-1', 'dt-0.1', 'dt-0.01']
 metersOff = [cTime, cTime1, cTime2]
 p.bar(langs,metersOff)
 p.xlabel("time steps in seconds")
-p.ylabel("compute time")
+p.ylabel("compute time in seconds")
 p.title("compute time in different time steps")
 p.show()
 
