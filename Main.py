@@ -49,10 +49,10 @@ def xandyPos(visitedPoints):
     return xlist, ylist
 
 timeInit = time.time()
-print(timeInit)
+# print(timeInit)
 visitedExam1 = robotExam.driveCommands(1)
 timeFinal = time.time()
-print(timeFinal)
+# print(timeFinal)
 cTime = timeFinal - timeInit
 
 xPositions1sec, yPositions = xandyPos(visitedExam1)
